@@ -32,8 +32,8 @@ export class PokemonService {
     
   }
 
-  findAll() {
-    return `This action returns all pokemon`;
+  async findAll() {
+    return await this.pokemonModel.find();
   }
 
   async findOne(id: string) {
@@ -54,8 +54,14 @@ export class PokemonService {
     return pokemon;
   }
 
-  update(id: number, updatePokemonDto: UpdatePokemonDto) {
-    return `This action updates a #${id} pokemon`;
+  async update(id: string, updatePokemonDto: UpdatePokemonDto) {
+    const pokemon = await this.findOne( id );
+
+    if( updatePokemonDto.name ) updatePokemonDto.name = updatePokemonDto.name.toLowerCase();
+
+    await pokemon.updateOne( updatePokemonDto, { new: true } ); // Se agrega el true para que devuelva el objeto nuevo, si no se pone devuelve el viejo
+
+    return { ...pokemon.toJSON(), ...updatePokemonDto};
   }
 
   remove(id: number) {
