@@ -22,20 +22,19 @@ export class SeedService {
 
     const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=10');
 
-    const insertPromisesArray = [];
+    const pokemonToInsert: { name: string, no: number }[] = [];
 
     data.results.forEach(async ({ name, url }) => {
 
       const segments = url.split('/');// cortamos la url por "/" para extraer el id del pokemon
       const no: number = +segments[segments.length - 2]; // convertimos a numero con el +, y buscamos en el array la penultima posición donde esta el id
 
-      insertPromisesArray.push(
-        this.pokemonModel.create({ name, no })
-      );
-      //const pokeom = await this.pokemonModel.create({ name, no });
+      pokemonToInsert.push({ name, no });
+
     })
 
-    await Promise.all(insertPromisesArray);
+    await this.pokemonModel.insertMany(pokemonToInsert);
+
     return 'Seed ejecutado correctamente!';
   }
 }
