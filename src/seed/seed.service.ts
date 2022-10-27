@@ -20,7 +20,7 @@ export class SeedService {
 
     this.pokemonModel.deleteMany({});//Nos encargamos de eliminar lo que haya en la BD
 
-    const data = await this.http.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=10');
+    const data = await this.http.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=100');
 
     const pokemonToInsert: { name: string, no: number }[] = [];
 
