@@ -23,7 +23,7 @@
 docker-compose up -d
 ```
 
-4. Reconstruir la BD con la semilla
+5. Reconstruir la BD con la semilla
 
 ```
 http://localhost:3000/api/v2/seed
